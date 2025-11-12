@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF--8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mercado Agropecuario Cundiboyacense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Nunito', 'sans-serif'],
+              heading: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              'brand-green': '#6DBE45',
+              'brand-green-dark': '#5DAE35',
+              'brand-green-light': '#d7eccc',
+              'brand-beige': '#f8fafc',
+              'brand-brown': '#b8aea1',
+              'brand-blue': '#6db3d6',
+              'brand-gold': '#E3C341',
+              'brand-gold-dark': '#D4B931',
+              'brand-dark': '#1e293b',
+              'slate-50': '#f8fafc',
+              'slate-100': '#f1f5f9',
+              'slate-200': '#e2e8f0',
+              'slate-500': '#64748b',
+              'slate-800': '#1e293b',
+              'sky-500': '#0ea5e9',
+            },
+            animation: {
+              fadeIn: 'fadeIn 0.5s ease-out forwards',
+              scaleIn: 'scaleIn 0.3s ease-out forwards',
+              fruitRain: 'fruitRain 10s ease-in forwards',
+              slideInAndOut: 'slideInAndOut 5s ease-in-out forwards',
+              slideUp: 'slideUp 0.3s ease-out forwards',
+              messageFadeIn: 'messageFadeIn 0.4s ease-out forwards'
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              fruitRain: {
+                '0%': { transform: 'translateY(-10vh)', opacity: '0' },
+                '10%': { opacity: '1' },
+                '90%': { opacity: '1' },
+                '100%': { transform: 'translateY(100vh)', opacity: '0' },
+              },
+              slideInAndOut: {
+                '0%': { transform: 'translateX(120%)', opacity: '0' },
+                '15%, 85%': { transform: 'translateX(0)', opacity: '1' },
+                '100%': { transform: 'translateX(120%)', opacity: '0' },
+              },
+              confettiFall: {
+                '0%': { transform: 'translateY(-20px) rotate(0deg)', opacity: '1' },
+                '100%': { transform: 'translateY(80px) rotate(360deg)', opacity: '0' },
+              },
+              slideUp: {
+                  '0%': { transform: 'translateY(20px) scale(0.95)', opacity: '0' },
+                  '100%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+              },
+              messageFadeIn: {
+                  '0%': { opacity: '0', transform: 'translateY(10px) scale(0.98)' },
+                  '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.5",
+    "recharts": "https://aistudiocdn.com/recharts@^3.3.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@heroicons/react/24/outline": "https://aistudiocdn.com/@heroicons/react@^2.1.5/24/outline/index.js",
+    "@heroicons/react/24/solid": "https://aistudiocdn.com/@heroicons/react@^2.1.5/24/solid/index.js",
+    "@heroicons/react/": "https://aistudiocdn.com/@heroicons/react@^2.1.5/"
+  }
+}
+</script>
+<style>
+    .calculadora-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('https://i.ibb.co/RpJ6hpNZ/50ad28c8-6898-4841-94fe-7f5d0ffffc7f.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: 20;
+      z-index: -1;
+      border-radius: inherit;
+    }
+    .range-thumb::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #6DBE45; /* brand-green */
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        margin-top: -8px; /* Vertically center */
+    }
+    .range-thumb::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #6DBE45; /* brand-green */
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    .ad-sidebar {
+      position: fixed;
+      top: 50%;
+      width: 120px;
+      height: 400px;
+      background-color: #f1f5f9; /* slate-100 */
+      border: 1px solid #e2e8f0; /* slate-200 */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.5s ease-in-out;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b; /* slate-500 */
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .ad-left {
+      left: 0;
+      transform: translate(-110%, -50%);
+    }
+    .ad-right {
+      right: 0;
+      transform: translate(110%, -50%);
+    }
+    .ad-visible.ad-left {
+      transform: translate(16px, -50%);
+    }
+    .ad-visible.ad-right {
+      transform: translate(-16px, -50%);
+    }
+    .ad-close-btn {
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 2px;
+    }
+    .ad-close-btn:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    /* Styles for the new achievement system */
+    .logro {
+        background: #f8f9fa; /* slate-50 */
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0; /* slate-200 */
+    }
+    .logro.obtenido {
+        background: linear-gradient(135deg, #FFD700, #FFEC8B); /* Dorado */
+        transform: scale(1.05);
+        border: 1px solid #D4B931; /* brand-gold-dark */
+    }
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 16px;
+      opacity: 0;
+      animation: confettiFall 1.5s ease-out forwards;
+    }
+  </style>
+</head>
+  <body class="bg-brand-beige text-brand-dark font-sans">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
