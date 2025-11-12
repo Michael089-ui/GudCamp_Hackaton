@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChatMessage, ChatOption } from '../types';
 import { ChatBubbleLeftRightIcon, XMarkIcon, PhoneIcon } from '@heroicons/react/24/solid';
@@ -67,7 +66,7 @@ const Chatbot: React.FC = () => {
                 sender: 'bot'
             }]);
         }
-    }, [isOpen]);
+    }, [isOpen, messages.length]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -138,9 +137,9 @@ const Chatbot: React.FC = () => {
                         <div className="space-y-4">
                             {messages.map((msg) => (
                                 <div key={msg.id} className={`flex flex-col animate-messageFadeIn ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                                    <div className={`max-w-[85%] p-3 rounded-2xl ${msg.sender === 'user' ? 'bg-brand-green text-white rounded-br-none' : 'bg-slate-200 text-brand-dark rounded-bl-none'}`}>
-                                        <div className="text-sm" dangerouslySetInnerHTML={typeof msg.text === 'string' ? { __html: msg.text } : undefined}>
-                                          {typeof msg.text !== 'string' ? msg.text : null}
+                                    <div className={`max-w-[85%] p-3 rounded-2xl ${msg.sender === 'user' ? 'bg-brand-green text-white rounded-br-none' : 'bg-white text-brand-dark rounded-bl-none border border-slate-200'}`}>
+                                        <div className="text-sm">
+                                          {msg.text}
                                         </div>
                                     </div>
                                     {msg.sender === 'bot' && msg.options && (

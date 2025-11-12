@@ -4,6 +4,7 @@ import { CropType, CreditSimulation, CreditStatus, AmortizationEntry, PlanType }
 import { useData } from '../contexts/DataContext';
 import AmortizationChart from '../components/AmortizationChart';
 import SimulationResults from '../components/SimulationResults';
+import DownloadPdfModal from '../components/DownloadPdfModal'; // Importar el nuevo modal
 
 const BASE_INTEREST_RATES: Record<string, number> = {
   [CropType.Cafe]: 1.5,
@@ -76,6 +77,7 @@ const CalculatorPage: React.FC = () => {
   const [showSavedMessage, setShowSavedMessage] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isDirty, setIsDirty] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el nuevo modal
 
   // --- EFFECTS ---
   useEffect(() => {
@@ -203,11 +205,13 @@ const CalculatorPage: React.FC = () => {
     }
   };
 
-  const handleSaveSimulation = () => {
+  const handleGuardarSimulacion = () => {
     if (result) {
       setCredits([...credits, result]);
       setShowSavedMessage(true);
       setTimeout(() => setShowSavedMessage(false), 3000);
+      // Abrir el modal después de guardar
+      setIsModalOpen(true);
     }
   };
 
@@ -326,7 +330,7 @@ const CalculatorPage: React.FC = () => {
                     arrobas,
                 }}
                 showSavedMessage={showSavedMessage}
-                onSave={handleSaveSimulation}
+                onSave={handleGuardarSimulacion}
                 onReset={handleReset}
             />
 
@@ -341,6 +345,12 @@ const CalculatorPage: React.FC = () => {
                 />
             </div>
         )}
+        
+        {/* Renderizar el modal */}
+        <DownloadPdfModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
     </div>
   );
 };
